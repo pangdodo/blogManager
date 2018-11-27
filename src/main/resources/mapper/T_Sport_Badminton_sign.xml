@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xz.mapper.Sport_Badminton_sign_Mapper">
+  <resultMap id="BaseResultMap" type="com.xz.entity.Sport_Badminton_sign">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="Badminton_id" jdbcType="INTEGER" property="Badminton_id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+     <result column="Phone_id" jdbcType="VARCHAR" property="Phone_id" />
+       <result column="Weixin_id" jdbcType="VARCHAR" property="Weixin_id" />
+    <result column="P_id" jdbcType="VARCHAR" property="P_id" />
+   
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  
+   
+  </resultMap>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xz.mapper.Sport_Badminton_S_Mapper">
+  <resultMap id="BaseResultMap" type="com.xz.entity.Sport_Badminton_S">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game_name" jdbcType="VARCHAR" property="game_name" />
+    <result column="game_content" jdbcType="CLOB" property="game_content" />
+    <result column="game_state" jdbcType="VARCHAR" property="game_state" />
+   
+  </resultMap>
+</mapper>
