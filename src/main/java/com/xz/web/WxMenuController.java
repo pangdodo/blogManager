@@ -97,7 +97,7 @@ public class WxMenuController {
             URL requestURL = new URL(request.getRequestURL().toString());
             String url = WxMpConfiguration.getMpServices().get(appid)
                 .oauth2buildAuthorizationUrl(
-                    String.format("%s://%s/signup", requestURL.getProtocol(), requestURL.getHost()),
+                    String.format("%s://%s/blogmanager/weixin/list?appid=%s", requestURL.getProtocol(), requestURL.getHost(),appid),
                     WxConsts.OAuth2Scope.SNSAPI_USERINFO, null);
             button34.setUrl(url);
         }

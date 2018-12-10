@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.xz.config.WxMpConfiguration;
 import com.xz.util.CheckUtil;
@@ -26,7 +27,7 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 /**
  * @author Binary Wang(https://github.com/binarywang)
  */
-@Controller
+@RestController
 @RequestMapping("/wx/{appid}")
 public class WxPortalController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -8,12 +8,16 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
+import com.xz.config.WxMpConfiguration;
 import com.xz.entity.Sport_Badminton_S;
 import com.xz.entity.Sport_Badminton_sign;
 import com.xz.model.JqgridBean;
@@ -21,6 +25,12 @@ import com.xz.model.PageRusult;
 import com.xz.service.Sport_Badminton_Service;
 import com.xz.service.Sport_Badminton_sign_Service;
 
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import tk.mybatis.mapper.entity.Example;
 
 
@@ -31,8 +41,8 @@ import tk.mybatis.mapper.entity.Example;
  *  微信端展示比赛相关  控制器
  *
  */
-@Controller
-@RequestMapping("/wx")
+@RestController
+@RequestMapping("/weixin")
 public class WX_badminton_controller {
 
 	@Resource
@@ -40,11 +50,26 @@ public class WX_badminton_controller {
 	@Resource
 	private Sport_Badminton_sign_Service sport_Badminton_sign_Service;
 	
-	@RequestMapping("/list")
+	   @RequestMapping("/list")
 	  //  @RequiresPermissions(value = {"羽毛球赛事管理"})
-	    public String tobadmintonmanage() {
+	    public String tobadmintonmanage(Map map,@RequestParam(value = "code", required = false, defaultValue = "1") String code,
+	    		@RequestParam String appid) {
 		 
+		   System.out.println("获取到的appid为：" + appid);
+		   WxMpService mpService = WxMpConfiguration.getMpServices().get(appid);
+
+	        try {
+	            WxMpOAuth2AccessToken accessToken = mpService.oauth2getAccessToken(code);
+	            WxMpUser user = mpService.oauth2getUserInfo(accessToken, null);
+	            System.out.println("获取到的user为：" + user.toString());
+	            map.put("user", user);
+	        } catch (WxErrorException e) {
+	            e.printStackTrace();
+	        }
 		   System.out.println("比赛报名项目列表");
+		   
+		   System.out.println("获取到的code为：" + code);
+		   
 	        return "power/wxbadmintons";
 	    }
 	
@@ -79,14 +104,11 @@ public class WX_badminton_controller {
 	    }
 	
 	
-	
-	@ResponseBody
-    @RequestMapping(value = "/lists")
+	@GetMapping(value = "/lists")
    // @RequiresPermissions(value = {"比赛项目管理"})
- 
- public Map<String, Object> list(JqgridBean jqgridbean
+  public Map<String, Object> list(JqgridBean jqgridbean
          /*String userName,@RequestParam(value="page",required=false)Integer page*/
-) throws Exception {
+		) throws Exception {
 	 
 	 
 	 LinkedHashMap<String, Object> resultmap = new LinkedHashMap<String, Object>();

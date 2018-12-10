@@ -59,6 +59,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/drawImage", "anon");
         
         filterChainDefinitionMap.put("/wx/**", "anon");
+        filterChainDefinitionMap.put("/weixin/**", "anon");
 
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/admin/user/logout", "logout");
