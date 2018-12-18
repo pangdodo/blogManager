@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>角色管理表格</title>
+<title>比赛报名</title>
 <!-- jqGrid组件基础样式包-必要 -->
 <link href="${basePath!}/static/jqgrid/css/ui.jqgrid.css" type="text/css" media="screen" rel="stylesheet"/>
 <link href="${basePath!}/static/jqgrid/css/jquery-ui.css" type="text/css" media="screen" rel="stylesheet"/>
@@ -441,14 +441,14 @@
             //创建jqGrid组件
             jQuery("#list2").jqGrid(
                     {
-                        caption: "比赛管理",//表格的标题名字
+                        caption: "比赛报名",//表格的标题名字
                         mtype: "post",//向后台请求数据的ajax的类型。可选post,get
                         url: 'badminton_sign/list',  //xumin  2018年11月19日修改  ,显示参赛人员
                         //url : 'static/jqgrid/data/JSONData.json',//组件创建完成之后请求数据的url
                         //styleUI: 'Bootstrap',
                         datatype: "json",//请求数据返回的类型。可选json,xml,txt
                         emptyrecords: "当前无记录",
-                        colNames: ['ID', '姓名', '手机号', '微信号','权限'],//jqGrid的列显示名字
+                        colNames: ['ID', '姓名', '手机号', '微信号'],//jqGrid的列显示名字
                         colModel: [  //这里会根据index去解析jsonReader中root对象的属性，填充cell
                             {name: 'id', index: 'id', width: 100, sortable: true, search: false},
                             {name: 'name', index: 'name', width: 220, sortable: false,search: true,
@@ -459,9 +459,9 @@
                                 editable: true,
                                 editoptions: {size: "20", maxlength: "30"}//当执行修改和新增的操作时，会显示输入框，输入框的配置*/
                             },
-                            {name: 'p_id', index: 'P_id', width: 400, sortable: false, search: false},
-                            {name: 'weixin_id', index: 'Weixin_id', width: 400, sortable: false, search: false},
-                            {name: 'setpermis', index: 'setpermis', align: "center", width: 300, sortable: false, search: false}
+                            {name: 'phone_id', index: 'Phone_id', width: 400, sortable: false, search: false},
+                            {name: 'weixin_name', index: 'Weixin_id', width: 400, sortable: false, search: false},
+                            
                         ],
 
                         //在gridComplete事件中添加：

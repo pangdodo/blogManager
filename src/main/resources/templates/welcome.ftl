@@ -20,7 +20,7 @@
 		<!-- 顶部 -->
 		<div class="layui-header header">
 			<div class="layui-main mag0">
-				<a href="${basePath!}/welcome" class="logo">xz.Blog</a>
+				<a href="${basePath!}/welcome" class="logo">体育赛事</a>
 				<!-- 显示/隐藏菜单 -->
 				<a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
 				<!-- 顶级菜单 -->
@@ -131,7 +131,7 @@
 		</div>
 		<!-- 底部 -->
 		<div class="layui-footer footer">
-			<p><span>copyright @2018 xz</span></p>
+			<p><span>copyright @2018  平凡科技   合作  西安市羽毛球协会</span></p>
 		</div>
 	</div>
 

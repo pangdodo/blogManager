@@ -22,7 +22,31 @@ public class Sport_Badminton_sign {
 	  private String Phone_id;
 	  private String address;
 	  private String Weixin_id;
-	  public Integer getId() {
+	  private String weixin_name;
+	  
+	public String getWeixin_name() {
+		return weixin_name;
+	}
+	public void setWeixin_name(String weixin_name) {
+		this.weixin_name = weixin_name;
+	}
+	private String game_item;
+	  private String game_items;
+	  
+	  
+	  public String getGame_item() {
+		return game_item;
+	}
+	public void setGame_item(String game_item) {
+		this.game_item = game_item;
+	}
+	public String getGame_items() {
+		return game_items;
+	}
+	public void setGame_items(String game_items) {
+		this.game_items = game_items;
+	}
+	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {

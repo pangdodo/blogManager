@@ -20,5 +20,8 @@ public interface Sport_Badminton_sign_Service extends IService<Sport_Badminton_s
 	List<Sport_Badminton_sign> selectBadminton_signById(Integer id);//根据id查询报名人员
 	
 	
+	List<Sport_Badminton_sign> selectbaominByBadmintonId(Integer id);//根据比赛ID查询报名人员
+	
+	
 
 }

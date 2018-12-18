@@ -34,6 +34,14 @@ public class Sport_Badminton_sign_ServiceImpl  extends BaseService<Sport_Badmint
 		
 	}
 	
+	@Override
+	public List<Sport_Badminton_sign> selectbaominByBadmintonId(Integer id){
+		
+		return  sport_Badminton_sign_Mapper.selectbaominByBadmintonId(id);
+		
+		
+	}
+	
 	
 
 }

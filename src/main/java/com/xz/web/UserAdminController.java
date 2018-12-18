@@ -65,6 +65,7 @@ public class UserAdminController {
         Example tuserExample = new Example(Tuser.class);
         //tuserExample.or().andIdNotEqualTo(1L);
         Example.Criteria criteria = tuserExample.or();
+     
         criteria.andNotEqualTo("userName","admin");
 
         if (StringUtils.isNotEmpty(jqgridbean.getSearchField())) {

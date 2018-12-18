@@ -26,7 +26,13 @@ public class Sport_Badminton_ServiceImpl  extends BaseService<Sport_Badminton_S>
 		
 		
 	}
-	
+	@Override
+	public List<Sport_Badminton_S> selectBadmintonByCreater(String creater){
+		
+		return  sport_Badminton_S_Mapper.selectBadmintonByCreater(creater);
+		
+		
+	}
 	
 
 }

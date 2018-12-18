@@ -21,10 +21,49 @@ public class Sport_Badminton_S {
 	 private Integer id;
 
     private String game_name;
-    
+    private String game_item;
+    private String game_items;
+	private String game_pay;
+    private String game_pays;
 	private String game_content;
     
     private String game_state;
+    
+    private String creater;
+    
+    public String getCreater() {
+		return creater;
+	}
+
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+
+	public String getGame_items() {
+		return game_items;
+	}
+
+	public void setGame_items(String game_items) {
+		this.game_items = game_items;
+	}
+
+	public String getGame_pay() {
+		return game_pay;
+	}
+
+	public void setGame_pay(String game_pay) {
+		this.game_pay = game_pay;
+	}
+
+	public String getGame_pays() {
+		return game_pays;
+	}
+
+	public void setGame_pays(String game_pays) {
+		this.game_pays = game_pays;
+	}
+
+
 
     public Integer getId() {
 		return id;
@@ -56,6 +95,14 @@ public class Sport_Badminton_S {
 
 	public void setGame_state(String game_state) {
 		this.game_state = game_state;
+	}
+
+	public String getGame_item() {
+		return game_item;
+	}
+
+	public void setGame_item(String game_item) {
+		this.game_item = game_item;
 	}
 
 

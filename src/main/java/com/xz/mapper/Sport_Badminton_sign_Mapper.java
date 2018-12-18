@@ -10,6 +10,8 @@ public interface Sport_Badminton_sign_Mapper extends MyMapper<Sport_Badminton_si
 	
 	List<Sport_Badminton_sign> selectBadminton_signById(Integer id);//根据id查询报名人员信息
 	
+	List<Sport_Badminton_sign> selectbaominByBadmintonId(Integer id);
+	
 	
 
 }

@@ -24,6 +24,7 @@
 <script src="${basePath!}/static/js/ztree/jquery.ztree.all.js" type="text/javascript"></script>
 
 
+
 <base href="${basePath!}/">
 
 </head>
@@ -41,22 +42,54 @@
 <#--↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓add↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓-->
 <#--带有 class="layui-fluid" 的容器中，那么宽度将不会固定，而是 100% 适应-->
 <div id="addeditformdivid" hidden="" class="layui-fluid" style="margin: 15px;">
-    <form class="layui-form" action="" id="addeditformid">
+    <form class="layui-form" action="" id="addeditformid" lay-filter="addeditformid">
         <label hidden="true" id="editlabelid"></label>
         <input id="editid" name="id" value="" hidden/>
+        <input id="creater" name="creater" value="" hidden/>
         <div class="layui-form-item">
             <label class="layui-form-label">比赛名称</label>
             <div class="layui-input-block">
                 <input type="text" id="game_name" name="game_name" lay-verify="name" autocomplete="off" placeholder="请输入比赛名称" class="layui-input">
+                
             </div>
         </div>
+         <div class="layui-form-item">
+    <label class="layui-form-label">比赛项目</label>
+    <div class="layui-input-block">
+       <input type="text" id="game_item" name="game_item"   class="layui-input">
+    </div>
+  </div>
+   <div class="layui-form-item">
+   <label class="layui-form-label">单项费用</label>
+     <div class="layui-input-inline">
+   <input type="text" id="game_pay" name="game_pay"  lay-verify="game_pay"  autocomplete="off" class="layui-input"> 
+    
+   </div>
+        <div class="layui-form-mid layui-word-aux">元/人</div>
+    </div>
+     <div class="layui-form-item">
+    <label class="layui-form-label">比赛项目</label>
+    <div class="layui-input-block">
+       <input type="text" id="game_items" name="ame_items"   class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+   <label class="layui-form-label">团体费用</label>
+     <div class="layui-input-inline">
+   <input type="text" id="game_pays" name="game_pays"  lay-verify="game_pays"  autocomplete="off" class="layui-input"> 
+    
+   </div>
+        <div class="layui-form-mid layui-word-aux">元/团</div>
+    </div>
         <div class="layui-form-item">
             <label class="layui-form-label">比赛内容</label>
             <div class="layui-input-block">
                 
                 
-              <textarea id="game_content" name="game_content" required lay-verify="required" placeholder="请输入" class="layui-textarea" rows="12"></textarea>
-
+               <textarea id="game_content" name="game_content" required lay-verify="required" placeholder="请输入" class="layui-textarea" rows="12"></textarea>
+               <div style="margin-bottom: 20px; width: 500px;">
+                
+</div>      
                 
             </div>
         </div>
@@ -270,6 +303,9 @@
     var zTreeObj1;
     var zTreeObj2;
     var layerid;//当前弹层id;这个id可以定义多个，主要的目的是为了在回调函数关闭弹层时使用的
+    
+ 
+    
     layui.use(['layer','form','layedit','laydate'], function(){
         var layer = layui.layer,
                 layedit = layui.layedit,
@@ -277,7 +313,16 @@
                 form = layui.form;
 
         //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
+       // var editIndex = layedit.build('game_content');
+        
+         //表单初始赋值
+  form.val('addeditformid', {
+  
+    "game_item[woman]": true //复选框选中状态
+     //alert("复选框测试");
+
+  });
+        
         //自定义验证规则
         form.verify({
             name: function(value) {
@@ -423,11 +468,13 @@
             $("#reset").click();//重置表单(新建时在进入表单前要重置一下表单的内容，不然表单打开后会显示上一次的表单的内容。这里调用表单中重置按钮的点击方法来重置)
             layerid=layer.open({//开启表单弹层
                 skin: 'layui-layer-molv',
-                area:'60%',
-                type: 1,
+                area:'100%,100%',
+                type: 2,
                 title:'新建比赛',
-                content: $('#addeditformdivid') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                //content: $('#addeditformdivid')
+                content: 'badminton_s/tonewupdatebatminton'  //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
             });
+            layer.full(layerid);
         });
 
         $("#delete").click(function () {
@@ -446,7 +493,7 @@
                         //请求后台，执行删除操作
                         $.ajax({
                             type: "POST",
-                            url:"admin/role/deleterole",
+                            url:"badminton_s/deletbadmintonbyid",
                             data:{id:ret.id},
                             async: false,
                             error: function(request) {
@@ -487,7 +534,14 @@
 
         });
 
-        $("#edit").click(function () {   //编辑比赛内容   xumin 2018年11月18
+          //2018年11月25日，layer.open type设置为 2 编辑比赛内容
+          
+   
+
+
+         
+        $("#edit").click(function () {   //编辑比赛内容   xumin 2018年11月18 ，layer.open type设置为 2
+         
 
             var id = jQuery("#list2").jqGrid('getGridParam', 'selrow');//jqgrid逻辑id，不是业务表单的主键字段id,这里要注意
             if (id) {
@@ -510,23 +564,32 @@
                         if(data.state=='success'){
                             //向表单填充数据
                             $("#editlabelid").html(ret.id);//临时存放id，当提交时再去除赋值给input
+                            $("#editid").val(ret.id);
                             $("#game_name").val(data.sport_Badminton_S.game_name);
                             $("#game_content").val(data.sport_Badminton_S.game_content);
+                            $("#game_item").val(data.sport_Badminton_S.game_item);
+                            $("#game_items").val(data.sport_Badminton_S.game_items);
+                            $("#game_pay").val(data.sport_Badminton_S.game_pay);
+                            $("#game_pays").val(data.sport_Badminton_S.game_pays);
+                            $("#creater").val(data.sport_Badminton_S.creater);
+                            
+                            
 
                             //开启编辑表单所在的弹层。注意编辑和新建的表单是一套模板
                             layerid=layer.open({
                                 skin: 'layui-layer-molv',
-                                area:'60%',
-                                type: 1,
+                                area:'100%',
+                                type: 2,
                                 title:'编辑比赛内容',
-                                content: $('#addeditformdivid') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                                content: 'badminton_s/toupdatebatminton'
+                                //content: $('#addeditformdivid') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
                             });
 
                         }
                     }
                 });
 
-
+                   layer.full(layerid);
             } else {
                 layer.alert("请选择要编辑的记录");
             }
@@ -555,10 +618,10 @@
                         //styleUI: 'Bootstrap',
                         datatype: "json",//请求数据返回的类型。可选json,xml,txt
                         emptyrecords: "当前无记录",
-                        colNames: ['ID', '比赛项目名称', '内容', '报名'],//jqGrid的列显示名字
+                        colNames: ['ID', '比赛项目名称',  '查看报名情况'],//jqGrid的列显示名字
                         colModel: [  //这里会根据index去解析jsonReader中root对象的属性，填充cell
                             {name: 'id', index: 'id', width: 100, sortable: true, search: false},
-                            {name: 'game_name', index: 'game_name', width: 220, sortable: false,search: true,
+                            {name: 'game_name', index: 'game_name', width: 420, sortable: false,search: true,
                                 //被该列搜索时的搜索条件有哪些
                                 searchoptions: {sopt: ['eq']}
                                 /*
@@ -566,7 +629,7 @@
                                 editable: true,
                                 editoptions: {size: "20", maxlength: "30"}//当执行修改和新增的操作时，会显示输入框，输入框的配置*/
                             },
-                            {name: 'game_content', index: 'game_content', width: 400, sortable: false, search: false},
+                            //{name: 'game_content', index: 'game_content', width: 400, sortable: false, search: false},
                             {name: 'setpermis', index: 'setpermis', align: "center", width: 300, sortable: false, search: false}
                         ],
 
@@ -578,7 +641,7 @@
                                 var id = ids[i];
                                 // var editBtn = "<a href='javascript:void(0)' style='color:#f60' onclick='' >设置权限</a>";
                                 var editBtn= '<button onclick="baomin('+ids[i]+');" class="layui-btn layui-btn-radius layui-btn-xs" style="width:inherit;height: 85%">'+
-                                        '<i class="layui-icon"></i>报名'+
+                                        '<i class="layui-icon"></i>查看报名'+
                                         '</button>';
 
                                 jQuery("#list2").jqGrid('setRowData', ids[i], { setpermis: editBtn });
@@ -653,10 +716,11 @@
            {//开启表单弹层
                 skin: 'layui-layer-molv',
                 area:'60%',
-                type: 1,
-                title:'报名比赛',
-                content: $('#addbaominformdivid') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                type: 2,
+                title:'查看报名',
+                content: '${basePath!}/badminton_sign/tosignBybadmintonId?id='+id //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
             });
+            layer.full(layerid);
         };
     function setrolelayer(id) {
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）

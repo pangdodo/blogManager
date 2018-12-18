@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
@@ -77,7 +78,58 @@ public class Sport_Badminton_sign_controller {
 		 }
 	    
 	    
+	    
+	    @RequestMapping("/tosignBybadmintonId")
+	    
+	    public String tolistbyBadmintonId(Map  map,@RequestParam("id") int id) {
+			 
+	    	
+			   System.out.println("跳转到根据项目id查看报名情况");
+			   map.put("badmintonid",id);
+		        return "power/signBybadmintonId";
+		    }
+	    @ResponseBody
+	    @RequestMapping(value = "/listbyBadmintonId")
+	   // @RequiresPermissions(value = {"比赛项目管理"})
+	    public Map<String, Object> listbybadId(JqgridBean jqgridbean,@RequestParam("id") int id
+	             /*String userName,@RequestParam(value="page",required=false)Integer page*/
+	) throws Exception {
+			 
+			 
+			 LinkedHashMap<String, Object> resultmap = new LinkedHashMap<String, Object>();
+		        LinkedHashMap<String, Object> datamap = new LinkedHashMap<String, Object>();
+		        
+		        Example sport_Badminton_sign = new Example(Sport_Badminton_sign.class);
+		        Example.Criteria criteria = sport_Badminton_sign.or();
+		        
+		        if (StringUtils.isNotEmpty(jqgridbean.getSearchField())) {
+		            if ("name".equalsIgnoreCase(jqgridbean.getSearchField())) {
+		                if ("eq".contentEquals(jqgridbean.getSearchOper())) {
+		                    criteria.andEqualTo("name",jqgridbean.getSearchString());
+		                }
+		            }
+		        }
 
+		        PageHelper.startPage(jqgridbean.getPage(), jqgridbean.getLength());
+		        List<Sport_Badminton_sign> badminton_signList = sport_Badminton_sign_Service.selectbaominByBadmintonId(id);
+		        //List<Sport_Badminton_sign> badminton_signList = sport_Badminton_sign_Service.selectByExample(sport_Badminton_sign);
+		        PageRusult<Sport_Badminton_sign> pageRusult =new PageRusult<Sport_Badminton_sign>(badminton_signList);
+
+		        /*Integer totalrecords = roleService.countByExample(troleExample);//总记录数
+		        Page pagebean = new Page(jqgridbean.getLength() * ((jqgridbean.getPage() > 0 ? jqgridbean.getPage() : 1) - 1), jqgridbean.getLength(), totalrecords);
+		        troleExample.setPage(pagebean);
+		        troleExample.setOrderByClause(jqgridbean.getSidx() + " " + jqgridbean.getSord());
+		        List<Trole> roleList = roleService.selectByExample(troleExample);*/
+
+		        resultmap.put("currpage", String.valueOf(pageRusult.getPageNum()));
+		        resultmap.put("totalpages", String.valueOf(pageRusult.getPages()));
+		        resultmap.put("totalrecords", String.valueOf(pageRusult.getTotal()));
+		        resultmap.put("datamap", badminton_signList);
+
+			 return resultmap;
+		 
+		 }
+	    
 	    /**
 	     * @param sport_Badminton_sign
 	     * 报名比赛

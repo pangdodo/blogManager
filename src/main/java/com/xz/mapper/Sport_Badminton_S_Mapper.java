@@ -9,6 +9,7 @@ public interface Sport_Badminton_S_Mapper  extends MyMapper<Sport_Badminton_S>{
 	
 	
 	List<Sport_Badminton_S> selectBadmintonById(Integer id);//根据id查询所有的比赛项目
+	List<Sport_Badminton_S> selectBadmintonByCreater(String creater);//根据id查询所有的比赛项目
 	
 	
 	

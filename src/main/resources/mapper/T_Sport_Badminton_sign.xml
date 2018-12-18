@@ -10,10 +10,23 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
      <result column="Phone_id" jdbcType="VARCHAR" property="Phone_id" />
        <result column="Weixin_id" jdbcType="VARCHAR" property="Weixin_id" />
+        <result column="weixin_name" jdbcType="VARCHAR" property="weixin_name" />
     <result column="P_id" jdbcType="VARCHAR" property="P_id" />
    
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="game_item" jdbcType="VARCHAR" property="game_item" />
+  <result column="game_items" jdbcType="VARCHAR" property="game_items" />
   
    
   </resultMap>
+  
+   <!--根据比赛项目ID查所有报名人员-->
+  <select id="selectbaominByBadmintonId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <![CDATA[
+  SELECT
+    tr.name, tr.weixin_name, tr.game_item, tr.game_items
+  from t_sport_badminton_sign tr where tr.badminton_id= ]]>#{id}
+  
+  </select>
+  
 </mapper>

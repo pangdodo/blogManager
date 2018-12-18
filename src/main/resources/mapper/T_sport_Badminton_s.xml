@@ -7,8 +7,19 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="game_name" jdbcType="VARCHAR" property="game_name" />
+    <result column="game_item" jdbcType="VARCHAR" property="game_item" />
+    <result column="game_item" jdbcType="VARCHAR" property="game_items" />
+      <result column="game_pay" jdbcType="VARCHAR" property="game_pay" />
+       <result column="game_pays" jdbcType="VARCHAR" property="game_pays" />
     <result column="game_content" jdbcType="CLOB" property="game_content" />
     <result column="game_state" jdbcType="VARCHAR" property="game_state" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
    
   </resultMap>
+   <!--根据比赛项目ID查所有报名人员-->
+  <select id="selectBadmintonByCreater" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <![CDATA[
+  SELECT tr.id, tr.game_name from t_sport_badminton_s_game tr where tr.creater= ]]>#{creater}
+  
+  </select>
 </mapper>

@@ -85,9 +85,21 @@ public class UserController {
 			Example tuserExample=new Example(Tuser.class);
 			tuserExample.or().andEqualTo("userName",userName);
 			Tuser currentUser=tuserService.selectByExample(tuserExample).get(0);
-			session.setAttribute("currentUser", currentUser);
+			
 			//List<Trole> roleList=troleService.findByUserId(currentUser.getId());
 			List<Trole> roleList=troleService.selectRolesByUserId(currentUser.getId());
+			//xumin 2018.12.15 修改，把角色信息存入session
+			String roles="";
+			for(int i=0;i<roleList.size();i++)
+			{
+				Trole trole=(Trole)roleList.get(i);
+				roles=roles+","+trole.getName();
+			}
+			currentUser.setRoles(roles);
+			
+			
+		
+			session.setAttribute("currentUser", currentUser);
 			map.put("roleList", roleList);
 			map.put("roleSize", roleList.size());
 			map.put("success", true);

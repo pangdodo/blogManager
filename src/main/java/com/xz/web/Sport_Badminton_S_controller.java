@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageHelper;
 import com.xz.entity.Sport_Badminton_S;
 import com.xz.entity.Trole;
+import com.xz.entity.Trolemenu;
 import com.xz.entity.Tuser;
+import com.xz.entity.Tuserrole;
 import com.xz.model.JqgridBean;
 import com.xz.model.PageRusult;
 import com.xz.service.Sport_Badminton_Service;
@@ -41,7 +44,7 @@ public class Sport_Badminton_S_controller {
 	    @RequestMapping(value = "/list")
 	   // @RequiresPermissions(value = {"比赛项目管理"})
 	 
-	 public Map<String, Object> list(JqgridBean jqgridbean
+	 public Map<String, Object> list(JqgridBean jqgridbean,HttpSession session
              /*String userName,@RequestParam(value="page",required=false)Integer page*/
 ) throws Exception {
 		 
@@ -59,9 +62,25 @@ public class Sport_Badminton_S_controller {
 	                }
 	            }
 	        }
-
+	        Tuser currentUser=(Tuser) session.getAttribute("currentUser");
+	        
+	        String cuserroles=currentUser.getRoles();
+	        
+	        List<Sport_Badminton_S> badmintonList = null;
+	        if(cuserroles.contains("系统管理员"))
+	        {
+	        	badmintonList = sport_Badminton_Service.selectByExample(sport_Badminton_S);
+	        }
+	        else
+	        {
+	        	badmintonList = sport_Badminton_Service.selectBadmintonByCreater(currentUser.getUserName());
+	        }
+	        //判断如果是管理员，能看到所有比赛，否则能看到自己创建的比赛
+	        System.out.println("用户角色信息======"+cuserroles);
+	        
 	        PageHelper.startPage(jqgridbean.getPage(), jqgridbean.getLength());
-	        List<Sport_Badminton_S> badmintonList = sport_Badminton_Service.selectByExample(sport_Badminton_S);
+	        //List<Sport_Badminton_S> badmintonList = sport_Badminton_Service.selectByExample(sport_Badminton_S);
+	       // List<Sport_Badminton_S> badmintonList = sport_Badminton_Service.selectBadmintonByCreater(currentUser.getUserName());
 	        PageRusult<Sport_Badminton_S> pageRusult =new PageRusult<Sport_Badminton_S>(badmintonList);
 
 	        /*Integer totalrecords = roleService.countByExample(troleExample);//总记录数
@@ -86,6 +105,27 @@ public class Sport_Badminton_S_controller {
 	     * @param sport_Badminton_S
 	     * @return
 	     */
+	 
+	 @RequestMapping("/tonewupdatebatminton")
+	    //@RequiresPermissions(value = {"羽毛球赛事管理"})
+	    public String tonewupdate() {
+		 
+		   System.out.println("跳转比赛项目创建页面");
+		   
+		    //需要获取当前登录人员信息
+		   
+	        return "power/newupdatebadminton";
+	    }
+	 
+	 
+	 @RequestMapping("/toupdatebatminton")
+	    //@RequiresPermissions(value = {"羽毛球赛事管理"})
+	    public String toupdate() {
+		 
+		   System.out.println("跳转到修改比赛项目内容页面");
+	        return "power/updatebadminton";
+	    }
+	 
 	    @ResponseBody
 	    @RequestMapping(value = "/addupdatebatminton")
 	    //@RequiresPermissions(value = {"比赛项目管理"})
@@ -167,6 +207,46 @@ public class Sport_Badminton_S_controller {
 	        }
 	    }
 	 
-	 
+	    @ResponseBody
+	    @RequestMapping(value = "/deletbadmintonbyid")
+	    
+	    public Map<String, Object> deletbadminton(Sport_Badminton_S sport_Badminton_S) {
+	        LinkedHashMap<String, Object> resultmap = new LinkedHashMap<String, Object>();
+	        try {
+	            if (sport_Badminton_S.getId() != null && !sport_Badminton_S.getId().equals(0)) {
+	            	
+	            	System.out.println("删除选中的项目ID==="+sport_Badminton_S.getId());
+	            	Sport_Badminton_S sport_Badminton_S1 = sport_Badminton_Service.selectByKey(sport_Badminton_S.getId());
+	                if (sport_Badminton_S1 == null) {
+	                    resultmap.put("state", "fail");
+	                    resultmap.put("mesg", "删除失败,无法找到该记录");
+	                    return resultmap;
+	                } else {
+	                    //还需删除用户角色中间表
+	                    Example badmintonexample = new Example(Sport_Badminton_S.class);
+	                    badmintonexample.or().andEqualTo("id",sport_Badminton_S.getId());
+	                    //sport_Badminton_Service.deleteByExample(badmintonexample);
+	                    //Example trolemenuexample = new Example(Trolemenu.class);
+	                   // trolemenuexample.or().andEqualTo("id",trole.getId());
+	                   // sport_Badminton_Service.deleteByExample(trolemenuexample);
+
+	                    sport_Badminton_Service.delete(sport_Badminton_S.getId());
+	                }
+	            } else {
+	                resultmap.put("state", "fail");
+	                resultmap.put("mesg", "删除失败");
+	            }
+
+
+	            resultmap.put("state", "success");
+	            resultmap.put("mesg", "删除成功");
+	            return resultmap;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            resultmap.put("state", "fail");
+	            resultmap.put("mesg", "删除失败，系统异常");
+	            return resultmap;
+	        }
+	    }
 
 }
