@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xz.mapper.TuserMapper">
+  <resultMap id="BaseResultMap" type="com.xz.entity.Tconfig">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="appid" jdbcType="VARCHAR" property="appid" />
+    <result column="secret" jdbcType="VARCHAR" property="secret" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    
+    <result column="mchId" jdbcType="VARCHAR" property="mchId" />
+    <result column="mchKey" jdbcType="VARCHAR" property="mchKey" />
+    <result column="subAppId" jdbcType="VARCHAR" property="subAppId" />
+    <result column="subMchId" jdbcType="VARCHAR" property="subMchId" />
+    <result column="keyPath" jdbcType="VARCHAR" property="keyPath" />
+        
+  </resultMap>
+</mapper>
